@@ -5,8 +5,8 @@
 * Public IP Address: 18.234.109.4
 * Port: 2200
 * Website: 
-    * http://18.234.109.4.xip.io/login
-    * http://ec2-18-234-109-4.compute-1.amazonaws.com/login
+    * http://18.234.109.4.xip.io
+    * http://ec2-18-234-109-4.compute-1.amazonaws.com
 * SSH Key: submitted in reviewer notes
 * Steps [3,4,5,6,7,8] are on Lightsail Linux Config
 * Steps [7] are on local Vagrant machine
