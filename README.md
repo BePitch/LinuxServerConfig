@@ -47,8 +47,8 @@ $ sudo ufw allow 123/udp
 $ sudo ufw enable 
 $ sudo ufw status
 ```
-## Step 6 - Add User and create ssh login keys
-Created user Grader
+## Step 6 - Add User 
+Created user Grader on lightsail instance
  ```ssh
 $ sudo adduser grader
 ```
@@ -56,6 +56,31 @@ Edit sudoers file and add `grader ALL=(ALL:ALL) ALL`
  ```ssh
 $ sudo nano /etc/sudoers.d/grader
 ```
-## Step 7
 
+## Step 7 Create SSH login keys
+Switching to my vagrant instance to create an SSH key
+```ssh
+$ mkdir .ssh
+$ chown vagrant:vagrant /home/vagrant/.ssh
+$ cd .ssh
+/.ssh $ ssh-keygen
+```
+when prompted I named the key grader. This would generate two files grader and grader.pub
+
+On lightsail instance
+```ssh
+$ mkdir .ssh
+$ chown grader:grader /home/grader/.ssh
+$ chmod 700 /home/grader/.ssh
+```
+Created a file called authorized_keys and copied over the ssh keygen contents from grader.pub file on vargant machine
+```ssh
+$ sudo nano /.ssh
+$ sudo chmod 400 /.ssh/authorized_keys
+```
+
+I can now login to my server from the vagrant machine using 
+```ssh
+ssh -i [privatekeyfilename] grader@18.234.109.4 -p 2200
+```
 ## Step 8
