@@ -169,5 +169,5 @@ application.secret_key = 'super_secret_key'
 3. Helped fix error client_secrets.json unknown https://github.com/sivcan/Linux-Server-Configuration
 4. Udacity's FSND Forum
 5. https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code
-
+6. https://aws.amazon.com/documentation/lightsail/ 
 
