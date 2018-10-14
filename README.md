@@ -142,7 +142,7 @@ $ sudo service apache2 restart
 ```
 3. Enable `sudo a2ensite FlaskApp`
 
-##Create WSGI file
+## Create WSGI file
 1. verify your directory is `cd /var/www/FlaskApp`
 2. sudo nano flaskapp.wsgi
 ```ssh
@@ -158,12 +158,12 @@ application.secret_key = 'super_secret_key'
 ```
 3. `sudo service apache2 restart`
 
-##Notes:
+## Notes:
 Checking your error logs will be helpful using the tail 20 command
 I was getting a No such file or directory: 'client_secrets.json' error. I fixed using a raw path to the init file `open(r'/var/www/catalog/catalog/client_secrets.json', 'r').read())...`
 
 
-##References
+## References
 1. https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
 2. https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps
 3. Helped fix error client_secrets.json unknown https://github.com/sivcan/Linux-Server-Configuration
