@@ -87,12 +87,12 @@ ssh -i [privatekeyfilename] grader@18.234.109.4 -p 2200
 ## Step 8 - Deploy project
 Confirm timezone is UTC with `$ sudo dpkg-reconfigure tzdata`
 
-###Install Apache, WSGI, Python
+### Install Apache, WSGI, Python
 ```ssh
 $ sudo apt-get install apache2 libapache2-mod-wsgi python-setuptools
 $ sudo service apache2 restart
 ```
-###Install and Confirgue PostgreSQL
+### Install and Confirgue PostgreSQL
 * Install PostgreSQL `sudo apt-get install postgresql`
 * Login as user `sudo su - postgres`
 * Go to shell `psql`
@@ -102,7 +102,7 @@ $ sudo service apache2 restart
 * Assign access to user `GRANT ALL PRIVILEGES ON DATABASE catalog TO catalog;`
 * Quit and Exit `\q` then `exit`
 
-## Install git, packages, clone and  modify files
+### Install git, packages, clone and  modify files
 1. Install Git `sudo apt-get install git`
 2. move into var/www dir `cd /var/www`
 3. create directory for repo clone `sudo mkdir FlaskApp` and cd into it `cd FlaskApp`
@@ -114,7 +114,7 @@ $ sudo service apache2 restart
 9. Create database `sudo python database_setup.py`
 10. Insert data `sudo python lotsofsoftware.py`
 
-## Configure Virtual Host
+### Configure Virtual Host
 1. Create File: `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
 2. Add this to the file
 ```ssh
@@ -142,7 +142,7 @@ $ sudo service apache2 restart
 ```
 3. Enable `sudo a2ensite FlaskApp`
 
-## Create WSGI file
+### Create WSGI file
 1. verify your directory is `cd /var/www/FlaskApp`
 2. sudo nano flaskapp.wsgi
 ```ssh
