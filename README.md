@@ -8,7 +8,7 @@
     * http://18.234.109.4.xip.io/login
     * http://ec2-18-234-109-4.compute-1.amazonaws.com/login
 * SSH Key: submitted in reviewer notes
-* Steps [3,4,5,6,7] are on Lightsail Linux Config
+* Steps [3,4,5,6,7,8] are on Lightsail Linux Config
 * Steps [7] are on local Vagrant machine
 
 ## Step 1 & 2- Create Lightsail Server Instance and login via browser console
@@ -159,8 +159,8 @@ application.secret_key = 'super_secret_key'
 3. `sudo service apache2 restart`
 
 ## Notes:
-Checking your error logs will be helpful using the tail 20 command
-I was getting a No such file or directory: 'client_secrets.json' error. I fixed using a raw path to the init file `open(r'/var/www/catalog/catalog/client_secrets.json', 'r').read())...`
+* Checking your error logs will be helpful using the tail 20 command.
+* I was getting a No such file or directory: 'client_secrets.json' error. I fixed using a raw path to the init file `open(r'/var/www/catalog/catalog/client_secrets.json', 'r').read())...`
 
 
 ## References
