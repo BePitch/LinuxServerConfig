@@ -6,7 +6,7 @@
 * Port: 2200
 * Website: 
     * http://18.234.109.4.xip.io
-    * http://ec2-18-234-109-4.compute-1.amazonaws.com
+    
 * SSH Key: submitted in reviewer notes
 * Steps [3,4,5,6,7,8] are on Lightsail Linux Config
 * Steps [7] are on local Vagrant machine
@@ -57,7 +57,7 @@ Edit sudoers file and add `grader ALL=(ALL:ALL) ALL`
 $ sudo nano /etc/sudoers.d/grader
 ```
 
-## Step 7 Create SSH login keys
+## Step 7 - Create SSH login keys
 #### contains tasks on both environments
 Switching to my vagrant instance to create an SSH key
 ```ssh
