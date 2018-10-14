@@ -8,8 +8,8 @@
     * http://18.234.109.4.xip.io/login
     * http://ec2-18-234-109-4.compute-1.amazonaws.com/login
 * SSH Key: submitted in reviewer notes
-* Steps [] are on Lightsail Linux Config
-* Steps [] are on local Vagrant machine
+* Steps [3,4,5,6,7] are on Lightsail Linux Config
+* Steps [7] are on local Vagrant machine
 
 ## Step 1 & 2- Create Lightsail Server Instance and login via browser console
 Created amazon lightsail instance via AWS using Ubuntu.
@@ -58,6 +58,7 @@ $ sudo nano /etc/sudoers.d/grader
 ```
 
 ## Step 7 Create SSH login keys
+#### contains tasks on both environments
 Switching to my vagrant instance to create an SSH key
 ```ssh
 $ mkdir .ssh
@@ -83,4 +84,90 @@ I can now login to my server from the vagrant machine using
 ```ssh
 ssh -i [privatekeyfilename] grader@18.234.109.4 -p 2200
 ```
-## Step 8
+## Step 8 - Deploy project
+Confirm timezone is UTC with `$ sudo dpkg-reconfigure tzdata`
+
+###Install Apache, WSGI, Python
+```ssh
+$ sudo apt-get install apache2 libapache2-mod-wsgi python-setuptools
+$ sudo service apache2 restart
+```
+###Install and Confirgue PostgreSQL
+* Install PostgreSQL `sudo apt-get install postgresql`
+* Login as user `sudo su - postgres`
+* Go to shell `psql`
+* Run `CREATE DATABASE catalog;`
+* Run `CREATE USER catalog;`
+* Set password `ALTER ROLE catalog WITH PASSWORD 'password';`
+* Assign access to user `GRANT ALL PRIVILEGES ON DATABASE catalog TO catalog;`
+* Quit and Exit `\q` then `exit`
+
+## Install git, packages, clone and  modify files
+1. Install Git `sudo apt-get install git`
+2. move into var/www dir `cd /var/www`
+3. create directory for repo clone `sudo mkdir FlaskApp` and cd into it `cd FlaskApp`
+4. clone `git clone https://github.com/BePitch/OAuth2.0.git` and rename `sudo mv ./OAuth2.0 ./FlaskApp` then `cd FlaskApp`
+5. rename  app python file `sudo mv project.py __init__.py` 
+6. edit database_setup file with Postgres changes `engine = create_engine('postgresql://catalog:password@localhost/catalog')`
+7. Install pip `sudo apt-get install python-pip`
+8. install packages `sudo pip install sqlalchemy flask oauth2client passlib requests psycopg2`
+9. Create database `sudo python database_setup.py`
+10. Insert data `sudo python lotsofsoftware.py`
+
+## Configure Virtual Host
+1. Create File: `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
+2. Add this to the file
+```ssh
+<VirtualHost *:80>
+	ServerName 18.234.109.4
+	ServerAdmin kingpitch@gmail.com
+    ServerAlias 18.234.109.4.xip.io
+    ServerAlias ec2-18-234-109-4.compute-1.amazonaws.com
+	WSGIDaemonProcess FlaskApp python-path=/var/www/FlaskApp:/var/www/Flask$
+    WSGIProcessGroup FlaskApp
+    WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
+    <Directory /var/www/FlaskApp/FlaskApp/>
+            Order allow,deny
+            Allow from all
+    </Directory>
+    Alias /static /var/www/FlaskApp/FlaskApp/static
+    <Directory /var/www/FlaskApp/FlaskApp/static/>
+            Order allow,deny
+            Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+3. Enable `sudo a2ensite FlaskApp`
+
+##Create WSGI file
+1. verify your directory is `cd /var/www/FlaskApp`
+2. sudo nano flaskapp.wsgi
+```ssh
+#!/usr/bin/python
+import sys
+import logging
+
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+application.secret_key = 'super_secret_key'
+```
+3. `sudo service apache2 restart`
+
+##Notes:
+Checking your error logs will be helpful using the tail 20 command
+I was getting a No such file or directory: 'client_secrets.json' error. I fixed using a raw path to the init file `open(r'/var/www/catalog/catalog/client_secrets.json', 'r').read())...`
+
+
+##References
+1. https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+2. https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps
+3. Helped fix error client_secrets.json unknown https://github.com/sivcan/Linux-Server-Configuration
+4. Udacity's FSND Forum
+5. https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code
+
+
