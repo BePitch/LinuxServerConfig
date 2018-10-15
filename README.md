@@ -47,6 +47,10 @@ $ sudo ufw allow 123/udp
 $ sudo ufw enable 
 $ sudo ufw status
 ```
+disabled IPV6 support `sudo nano /etc/default/ufw` and set to no.
+run `sudo ufw status numbered` and delete any ports that should not be allowed `sudo ufw delete [number]`
+then restart UFW `sudo ufw disable` and `sudo ufw enable`
+
 ## Step 6 - Add User 
 Created user Grader on lightsail instance
  ```ssh
@@ -113,6 +117,13 @@ $ sudo service apache2 restart
 8. install packages `sudo pip install sqlalchemy flask oauth2client passlib requests psycopg2`
 9. Create database `sudo python database_setup.py`
 10. Insert data `sudo python lotsofsoftware.py`
+
+## disable root login
+Find the PermitRootLogin line and edit it to no.
+```ssh
+$ sudo nano /etc/ssh/sshd_config. 
+$ sudo service ssh restart.
+```
 
 ### Configure Virtual Host
 1. Create File: `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
